@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="SkyBridge1. IntroductionMicrokernel deprivilege most system functionalities to user-level residing in isolated address space as a system server such a design can make OS robust because an run-time err">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/Skybridge/Skybridge.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SkyBridge1. IntroductionMicrokernel deprivilege most system functionalities to user-level residing in isolated address space as a system server such a design can make OS robust because an run-time err">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-10%20下午3.36.12.png">
+<meta property="og:image" content="http://example.com/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-10%20下午3.38.17.png">
+<meta property="og:image" content="http://example.com/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-11%20下午10.19.08.png">
+<meta property="og:image" content="http://example.com/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-13%20上午10.32.07.png">
+<meta property="article:published_time" content="2020-12-18T08:00:30.927Z">
+<meta property="article:modified_time" content="2020-11-19T12:05:50.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-10%20下午3.36.12.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Skybridge/Skybridge.html" class="article-date">
+  <time class="dt-published" datetime="2020-12-18T08:00:30.927Z" itemprop="datePublished">2020-12-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SkyBridge"><a href="#SkyBridge" class="headerlink" title="SkyBridge"></a>SkyBridge</h1><h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h2><h3 id="Microkernel"><a href="#Microkernel" class="headerlink" title="Microkernel"></a>Microkernel</h3><ul>
+<li>deprivilege most system functionalities to user-level residing in isolated address space as a system server</li>
+<li>such a design can make OS robust because an run-time error happened in a server will not affect other servers and the kernel</li>
+<li>any communication between deffirent user process is based on an IPC</li>
+<li>the overhead of IPC is a main factor which influence the whole performance of the system</li>
+</ul>
+<h3 id="Previous-works-on-improving-the-performance-of-IPC"><a href="#Previous-works-on-improving-the-performance-of-IPC" class="headerlink" title="Previous works on improving the performance of IPC"></a>Previous works on improving the performance of IPC</h3><ol>
+<li><p><strong>seL4:</strong> the IPC fastpath for the case of Call and ReplyWait system calls where the IPC message fits in CPU registers,</p>
+<p>and no capabilities are transferred. The message will be sent immediately and there is no involvement of scheduling logic.</p>
+</li>
+<li><p><strong>software-based solution:</strong> can not avoid the involvement of the kernel and therefore the performance cannot satisfy the requirements of IPC-intensive workloads.</p>
+</li>
+<li><p>**hardware-based solution: ** dipc puts all the ipc participants in a single address space to improve performance. And the process isolation is achieved by a newly designed tagged memory.</p>
+</li>
+</ol>
+<h3 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h3><ul>
+<li><p><strong>efficient:</strong> should avoid the involvement of the kernel to improve performance</p>
+</li>
+<li><p><strong>lightweight:</strong> the IPC can be readily deployed on commodity hardware and can be easily integrated into existing</p>
+<p>microkernel architecture.</p>
+</li>
+<li><p><strong>Secure:</strong> the IPC design does not break the microkernel isolation abstraction.</p>
+</li>
+</ul>
+<h3 id="SkyBridge-a-new-IPC-design"><a href="#SkyBridge-a-new-IPC-design" class="headerlink" title="SkyBridge: a new IPC design"></a>SkyBridge: a new IPC design</h3><ul>
+<li><p>still places each process in their own virtual address space </p>
+</li>
+<li><p>leverages one Intel hardware feature for virtualization, named EPT (extended page table) switching (the VMFUNC</p>
+<p>instruction), to change the virtual address space at the user level.</p>
+</li>
+<li><p>provides shared buffers to support long IPC</p>
+</li>
+</ul>
+<h3 id="SkyBridge-challenge"><a href="#SkyBridge-challenge" class="headerlink" title="SkyBridge: challenge"></a>SkyBridge: challenge</h3><ol>
+<li><p>leveraging EPT switching requires the virtualization layer which could bring up the overhead (e.g. VM exits)</p>
+<p>Introduce a tiny virtualization layer (called Rootkernel) only consisting of the most primitive functionalities for SkyBridge while eliminating VM exits during an IPC.</p>
+</li>
+<li><p>existing ways to leverage VMFUNC require non-trivial modifacaition on the kernel which can be a tremendous engineering work</p>
+</li>
+<li><p>It is difficult to design a secure IPC mechanism without the involvement of the kernel. </p>
+<p>SkyBridge guarantees that there is only one legal entry point for switching address spaces among processes. </p>
+<p>SkyBridge requires a process to register to other processes before communicating with them and introduces a calling-key table mechanism to enforce such a policy.</p>
+</li>
+</ol>
+<h2 id="2-Motivation-and-Background"><a href="#2-Motivation-and-Background" class="headerlink" title="2. Motivation and Background"></a>2. Motivation and Background</h2><h3 id="Deconstructing-Synchronous-IPC"><a href="#Deconstructing-Synchronous-IPC" class="headerlink" title="Deconstructing Synchronous IPC"></a>Deconstructing Synchronous IPC</h3><h4 id="1-Direct-Cost-of-IPC"><a href="#1-Direct-Cost-of-IPC" class="headerlink" title="(1) Direct Cost of IPC"></a>(1) Direct Cost of IPC</h4><ul>
+<li>Mode switch</li>
+<li>Address space switch</li>
+<li>Other software IPC logic: security checks, endpoint management and capability enforcement.</li>
+</ul>
+<h4 id="2-Indirect-Cost-of-IPC"><a href="#2-Indirect-Cost-of-IPC" class="headerlink" title="(2) Indirect Cost of IPC"></a>(2) Indirect Cost of IPC</h4><ul>
+<li>processor structures pollution(L1 dcache and icache, L2,L3 shared cache, TLB).</li>
+</ul>
+<h4 id="3-IPC-Cost-in-Multicore"><a href="#3-IPC-Cost-in-Multicore" class="headerlink" title="(3) IPC Cost in Multicore"></a>(3) IPC Cost in Multicore</h4><p>In multicore machines, the client and server may reside on differents cores. Under such a circumstance,  a cross-core IPC involves a costly inter-processor interrupt (IPI).</p>
+<h3 id="EPTP-Switching-with-VMFUNC"><a href="#EPTP-Switching-with-VMFUNC" class="headerlink" title="EPTP Switching with VMFUNC"></a>EPTP Switching with VMFUNC</h3><ul>
+<li>VMFUNC is a intel hardware function which allows  software in non-root mode (in both kernel and user modes) to invoke a VM function.</li>
+<li>EPT (just like stage-2 page table in arm) which can translate GPA to HPA.</li>
+<li>EPTP(like vttbr_el2 in arm) points to an EPT.</li>
+<li>EPTP (the pointer to an EPT) switching is one of these VM functions which allows the guest to load a new value for EPTP(the counterpart of vttbr_el2) from a EPTP list stored in the Virtual Machine Control Structure (VMCS) configured by the hypervisor. The EPTP list can hold at most 512 EPTP entries.</li>
+</ul>
+<h2 id="3-Overview"><a href="#3-Overview" class="headerlink" title="3. Overview"></a>3. Overview</h2><h3 id="Key-Idea-and-Challenges"><a href="#Key-Idea-and-Challenges" class="headerlink" title="Key Idea and Challenges"></a>Key Idea and Challenges</h3><ul>
+<li>Do not need to trap into the kernel</li>
+<li>Eliminate the costly IPI because it allows one process to directly invoke other process’s code.</li>
+</ul>
+<img src="/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-10 下午3.36.12.png" alt="截屏2020-10-10 下午3.36.12" style="zoom:50%;" />
+
+<img src="/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-10 下午3.38.17.png" alt="截屏2020-10-10 下午3.38.17" style="zoom:50%;" />
+
+<h4 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h4><ol>
+<li>A server invokes register_server to register into the kernel before other processes start to request its service.</li>
+</ol>
+<ul>
+<li>arg1: a number indicating the maximum number of connections it can receive at the same time.</li>
+<li>arg2:  provide a function address (va in its own vmspace)</li>
+</ul>
+<ol start="2">
+<li><p>Then the kernel maps trampoline-related code and data (shared pages and stacks) into the server’s virtual address space and returns the server ID.</p>
+</li>
+<li><p>The client also registers into SkyBridge by providing the server ID which it intends to call.</p>
+</li>
+<li><p>The kernel then maps trampoline-related code and data pages into the client’s virtual address space.</p>
+</li>
+<li><p>Most importantly, the kernel creates one EPT for the client and all the target servers.</p>
+</li>
+<li><p>When the client invokes the direct_server_call, the trampoline saves the client’s states into its stack and invokes the VMFUNC instruction to switch to the server’s EPT. After switching EPT, the configuration in the server’s EPT makes sure the hardware use the server’s page table to translate all subsequent virtual addresses.</p>
+<h4 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges"></a>Challenges</h4></li>
+</ol>
+<ul>
+<li><p><strong>Virtualization overhead</strong></p>
+</li>
+<li><p><strong>Integration:</strong> existing techniques of leveraging VMFUNC are difficult to apply to microkernels without much modification.</p>
+</li>
+<li><p><strong>Security:</strong> direct virtual address space switch without the kernel involvement.</p>
+</li>
+</ul>
+<h3 id="Solutions"><a href="#Solutions" class="headerlink" title="Solutions"></a>Solutions</h3><h4 id="Efficient-Virtualization"><a href="#Efficient-Virtualization" class="headerlink" title="Efficient Virtualization:"></a>Efficient Virtualization:</h4><ul>
+<li><p>The overhead of virtualization mainly comes from:</p>
+<ul>
+<li>two-level address translation</li>
+<li>a large number of VM exits</li>
+</ul>
+</li>
+<li><p><strong>Address the first overhead:</strong> Introduce a tiny hypervisor (Rootkernel) and utilize 1G huge page to map most host physical memory to microkernel (named Subkernel in this paper).  This mapping allows microkernel to execute without EPT violation and diminishes the cost of address translation from a GPA to its HPA.</p>
+</li>
+<li><p><strong>Address the second overhead:</strong> The Rootkernel configures VMCS (Virtual Machine Control Structure) to let the Subkernel handle most hardware events (e.g. external interrupt) and privileged instructions.</p>
+<img src="/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-11 下午10.19.08.png" alt="截屏2020-10-11 下午10.19.08" style="zoom:50%;" />
+
+</li>
+</ul>
+<h4 id="Lightweight-Virtual-Address-Switch"><a href="#Lightweight-Virtual-Address-Switch" class="headerlink" title="Lightweight Virtual Address Switch:"></a>Lightweight Virtual Address Switch:</h4><ul>
+<li>When scheduling a new process, SkyBridge installs a new EPTP list for it , which contains the EPT pionters of servers that the client is allowed to invoke.</li>
+<li>After switching to the sevre’s EPT, the CR3 value of the client’s address space will be treated as a GPA and translated to the HPA of the corresponding server’s CR3 value.</li>
+</ul>
+<h4 id="Secure-Trampoline"><a href="#Secure-Trampoline" class="headerlink" title="Secure Trampoline:"></a>Secure Trampoline:</h4><ul>
+<li><strong>To defend VMFUNC faking attack:</strong> SkyBridge rewrites the binary of a process to replace all illeagal VMFUNC with functionally-equivalent instructions.</li>
+<li><strong>To prevent a sender from calling unregistered receiver:</strong> We provide a calling-key table for each process, which records a list of calling keys. For each IPC, the sender should provide a calling key for the receiver, which checks the key against its calling-key table and denies the IPC and notifies the kernel if the sent key does not exist in the table.</li>
+</ul>
+<h2 id="4-Detailed-Design"><a href="#4-Detailed-Design" class="headerlink" title="4. Detailed Design"></a>4. Detailed Design</h2><h3 id="Trampoline"><a href="#Trampoline" class="headerlink" title="Trampoline"></a>Trampoline</h3><p>The direct_server_call interface of SkyBridge is implemented by a trampoline, which is a code page mapped into the virtual space by the Subkernel during process registration. A client and all its bound servers should be inserted such trampoline.</p>
+<h3 id="The-Rootkernel"><a href="#The-Rootkernel" class="headerlink" title="The Rootkernel"></a>The Rootkernel</h3><ul>
+<li><strong>The size of Rootkernel is much smaller than commercial hypervisor. I</strong>t only contains three modules: self_virtualization module, EPT management and basic VM exit handlers.</li>
+<li><strong>To eliminate the costly VM exits:</strong><ul>
+<li>The Rootkernel allows privileged instructions to not trigger any VM exits.</li>
+<li>The Rootkernel allows the hardware to inject the external interruption into the microkernel.</li>
+<li>The Rootkernel creates a base EPT for the Subkernel and uses maximum 1G huge page to map most physical memory address to the Subkernel. So the Subkernel can access almost all physical memory and no more EPT violation will be triggered.</li>
+</ul>
+</li>
+<li>The Rootkernel is booted by the Subkernel and downgrades the Subkernel to non-root mode.</li>
+</ul>
+<h3 id="The-Subkernel"><a href="#The-Subkernel" class="headerlink" title="The Subkernel"></a>The Subkernel</h3><h4 id="Register-server"><a href="#Register-server" class="headerlink" title="Register server"></a>Register server</h4><ul>
+<li>The Subkernel maps the trampoline code page and a number of stack pages into the server’s virtual address space.</li>
+<li>Allocate a free server ID</li>
+</ul>
+<h4 id="Register-client"><a href="#Register-client" class="headerlink" title="Register client"></a>Register client</h4><ul>
+<li>The Rootkernel maps the trampoline code and stack pages into the client’s virtual address space.</li>
+<li>The Rootkernel will copy a new Server EPT and map the client`s CR3 value to server CR3 value.</li>
+<li>The Rootkernel installs the newly created EPT into the client’s EPTP list.</li>
+</ul>
+<h3 id="Memory-Mapping"><a href="#Memory-Mapping" class="headerlink" title="Memory Mapping"></a>Memory Mapping</h3><p>SkyBridge still uses separated page tables for different processes. To switch page tables without modifying the CR3 register in the user mode, it remaps the client’s table page base address (CR3 value) to the HPA of server’s CR3 value in the server’s EPT.</p>
+<img src="/Users/wzx/Documents/论文学习/实验室论文/SkyBridge(Eurosys19)/截屏2020-10-13 上午10.32.07.png" alt="截屏2020-10-13 上午10.32.07" style="zoom:50%;" />
+
+<ol>
+<li>When the client registers, the Subkernel notifies the Rootkernel to copy two new EPTs from base EPT for the client and server. CR3-C still maps to CR3-C in client EPT. However, CR3-C maps to CR3-S in server EPT.</li>
+<li>When the client invokes <code>direct_server_call </code>, the trampoline invokes VMFUNC instruction and switch EPTP from client EPT to    server EPT. After using server EPT, CR3-C (GPA) will be mapped to server CR3-S (HPA). It means that all the following given virtual address will be translated according to server`s page table.</li>
+</ol>
+<h3 id="Security-Threats"><a href="#Security-Threats" class="headerlink" title="Security Threats"></a>Security Threats</h3><h4 id="Self-prepared-VMFUNC-Attack"><a href="#Self-prepared-VMFUNC-Attack" class="headerlink" title="Self-prepared VMFUNC Attack"></a>Self-prepared VMFUNC Attack</h4><p>To defend against such attack, we leverage the binary rewriting technique and scan the each process’s code to replace any VMFUNC instruction or any sequences of instructions containing an inadvertent VMFUNC with other functionally-equivalent instructions.</p>
+<h4 id="Illeagle-sever-call-or-client-return"><a href="#Illeagle-sever-call-or-client-return" class="headerlink" title="Illeagle sever call or client return"></a>Illeagle sever call or client return</h4><p>To defend suck attack, SkyBridge provides a calling-key table for each process.</p>
+<h2 id="5-Dynamically-Rewriting-Illeagal-VMFUNC"><a href="#5-Dynamically-Rewriting-Illeagal-VMFUNC" class="headerlink" title="5. Dynamically Rewriting Illeagal VMFUNC"></a>5. Dynamically Rewriting Illeagal VMFUNC</h2><h3 id="Rewriting-Mechanism"><a href="#Rewriting-Mechanism" class="headerlink" title="Rewriting Mechanism"></a>Rewriting Mechanism</h3><ul>
+<li>Scan code pages to replace illegal VMFUNC outside the trampoline code page with functionally-equivalent instructions.</li>
+<li>Because of the variable instruction length, SkyBridge use a rewriting page (second page, starting from 0x1000).  SkyBridge replaces these instructions with a jump instruction which jumps to this rewriting page.</li>
+</ul>
+<h3 id="Rewriting-Strategy"><a href="#Rewriting-Strategy" class="headerlink" title="Rewriting Strategy"></a>Rewriting Strategy</h3><ul>
+<li><p><strong>The instruction is indeed VMFUNC:</strong> the Subkernel just replaces the illegal VMFUNC with three NOP instructions.</p>
+</li>
+<li><p><strong>A VMFUNC encoded by spanning two or more instructions:</strong> Illegal VMFUNC spanning two or more instructions</p>
+<p>can be “broken” by inserting a NOP between these consecutive instructions.</p>
+</li>
+<li><p><strong>A long instruction contains the VMFUNC encoding:</strong> the Subkernel replaces this instruction with other functionallyequivalent instructions.</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/Skybridge/Skybridge.html" data-id="ckitzpjqv00001rnj3n6bac6b" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/uncategorized/hello-world">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
